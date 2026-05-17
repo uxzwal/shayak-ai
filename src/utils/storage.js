@@ -5,10 +5,51 @@
 
 const STORAGE_PREFIX = 'sahayak_';
 
+const SESSION_LOG_KEY = `${STORAGE_PREFIX}session_log`;
+
 /**
- * Save current session Q&A to LocalStorage
+ * Save current session Q&A log to LocalStorage
  */
-export function saveSessionLog(emergencyType, answers, severity) {
+export function saveSessionLog(logEntries) {
+  try {
+    localStorage.setItem(SESSION_LOG_KEY, JSON.stringify(logEntries));
+    return true;
+  } catch (error) {
+    console.error('Error saving session log:', error);
+    return false;
+  }
+}
+
+/**
+ * Get current session Q&A log from LocalStorage
+ */
+export function getSessionLog() {
+  try {
+    const data = localStorage.getItem(SESSION_LOG_KEY);
+    return data ? JSON.parse(data) : [];
+  } catch (error) {
+    console.error('Error reading session log:', error);
+    return [];
+  }
+}
+
+/**
+ * Clear current session log
+ */
+export function clearSessionLog() {
+  try {
+    localStorage.removeItem(SESSION_LOG_KEY);
+    return true;
+  } catch (error) {
+    console.error('Error clearing session log:', error);
+    return false;
+  }
+}
+
+/**
+ * Save completed session summary to LocalStorage
+ */
+export function saveCompletedSession(emergencyType, answers, severity) {
   const sessionLog = {
     timestamp: new Date().toISOString(),
     emergencyType,
@@ -20,7 +61,7 @@ export function saveSessionLog(emergencyType, answers, severity) {
   try {
     const key = `${STORAGE_PREFIX}session_${sessionLog.id}`;
     localStorage.setItem(key, JSON.stringify(sessionLog));
-    
+
     // Also add to sessions list for easy retrieval
     const sessionsList = getSessionsList();
     sessionsList.push({
@@ -30,7 +71,7 @@ export function saveSessionLog(emergencyType, answers, severity) {
       severity
     });
     localStorage.setItem(`${STORAGE_PREFIX}sessions_list`, JSON.stringify(sessionsList));
-    
+
     return sessionLog;
   } catch (error) {
     console.error('Error saving session:', error);
@@ -236,21 +277,20 @@ export async function copyToClipboard(text) {
 /**
  * Get storage status and available space
  */
-export function getStorageStatus() {
+export async function getStorageStatus() {
   try {
     if (!navigator.storage || !navigator.storage.estimate) {
       return { available: true, message: 'Storage available' };
     }
 
-    navigator.storage.estimate().then(estimate => {
-      const percentUsed = (estimate.usage / estimate.quota) * 100;
-      return {
-        available: percentUsed < 90,
-        usage: estimate.usage,
-        quota: estimate.quota,
-        percentUsed
-      };
-    });
+    const estimate = await navigator.storage.estimate();
+    const percentUsed = (estimate.usage / estimate.quota) * 100;
+    return {
+      available: percentUsed < 90,
+      usage: estimate.usage,
+      quota: estimate.quota,
+      percentUsed
+    };
   } catch (error) {
     return { available: true, message: 'Storage available' };
   }

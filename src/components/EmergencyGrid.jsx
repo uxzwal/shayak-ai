@@ -18,12 +18,6 @@ export function EmergencyGrid({ emergencies, onSelectEmergency }) {
             Emergency Response Agent — India
           </p>
           
-          {/* Offline Badge */}
-          <div className="inline-flex items-center gap-2 bg-green-50 border-2 border-green-400 rounded-full px-4 py-2 mb-6">
-            <span className="text-2xl">🟢</span>
-            <span className="font-semibold text-green-700">Offline Ready — No Internet Needed</span>
-          </div>
-
           <p className="text-slate-600 text-center max-w-2xl mx-auto">
             Select an emergency below. The agent will ask adaptive questions and provide immediate, medically-sound guidance based on your responses.
           </p>

@@ -7,19 +7,27 @@ import React, { useState } from 'react';
 
 export function AgentChat({
   protocol,
-  onComplete,
   onBack,
   currentQuestion,
   questionHistory,
-  answers,
+  sessionLog = [],
   onAnswer
 }) {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [textInput, setTextInput] = useState('');
+  const [isLogOpen, setIsLogOpen] = useState(false);
 
   // Calculate progress
-  const totalQuestions = protocol.questions.length;
-  const currentQuestionNumber = questionHistory.length + 1;
+  const totalQuestions = Math.min(protocol.questions.length, 5);
+  const currentQuestionNumber = Math.min(questionHistory.length, totalQuestions);
+  const progressPercent = totalQuestions
+    ? (currentQuestionNumber / totalQuestions) * 100
+    : 0;
+
+  const booleanStyles = {
+    true: 'border-green-500 bg-green-50 text-green-900',
+    false: 'border-red-500 bg-red-50 text-red-900'
+  };
 
   const handleAnswer = () => {
     if (selectedAnswer === null && textInput === '') return;
@@ -39,12 +47,6 @@ export function AgentChat({
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 p-4">
       <div className="max-w-2xl mx-auto py-8">
-        {/* Offline Badge */}
-        <div className="inline-flex items-center gap-2 bg-green-50 border border-green-300 rounded-full px-3 py-1 mb-8 text-sm">
-          <span className="text-lg">🟢</span>
-          <span className="font-medium text-green-700">Offline</span>
-        </div>
-
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-slate-800 mb-2">
@@ -53,7 +55,7 @@ export function AgentChat({
           <div className="flex items-center gap-3 text-slate-600">
             <span className="text-3xl">{protocol.icon}</span>
             <span className="font-medium">
-              Question {currentQuestionNumber} of {Math.min(totalQuestions, 5)}
+              Question {currentQuestionNumber} of {totalQuestions}
             </span>
           </div>
         </div>
@@ -64,7 +66,7 @@ export function AgentChat({
             <div
               className="h-full bg-gradient-to-r from-blue-400 to-blue-600 transition-all duration-300"
               style={{
-                width: `${(currentQuestionNumber / Math.min(totalQuestions, 5)) * 100}%`
+                width: `${progressPercent}%`
               }}
             ></div>
           </div>
@@ -114,15 +116,15 @@ export function AgentChat({
             {currentQuestion.inputType === 'boolean' && (
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { label: 'Yes', value: true, color: 'green' },
-                  { label: 'No', value: false, color: 'red' }
+                  { label: 'Yes', value: true },
+                  { label: 'No', value: false }
                 ].map((option) => (
                   <button
                     key={String(option.value)}
                     onClick={() => setSelectedAnswer(option.value)}
                     className={`p-4 rounded-lg border-2 font-bold text-lg transition-all duration-200 ${
                       selectedAnswer === option.value
-                        ? `border-${option.color}-500 bg-${option.color}-50 text-${option.color}-900`
+                        ? booleanStyles[String(option.value)]
                         : 'border-slate-200 bg-white text-slate-800 hover:border-slate-300'
                     }`}
                   >
@@ -137,7 +139,7 @@ export function AgentChat({
                 type="text"
                 value={textInput}
                 onChange={(e) => setTextInput(e.target.value)}
-                onKeyPress={(e) => {
+                onKeyDown={(e) => {
                   if (e.key === 'Enter') handleAnswer();
                 }}
                 placeholder="Type your answer..."
@@ -173,11 +175,53 @@ export function AgentChat({
 
         {/* Session Log Button */}
         <div className="mt-8 flex justify-center">
-          <button className="text-sm text-blue-600 hover:text-blue-700 underline">
+          <button
+            onClick={() => setIsLogOpen(true)}
+            className="text-sm text-blue-600 hover:text-blue-700 underline"
+          >
             📋 View Session Log
           </button>
         </div>
       </div>
+
+      {isLogOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4">
+          <div className="bg-white rounded-xl shadow-xl max-w-lg w-full p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-bold text-slate-800">Session Log</h3>
+              <button
+                onClick={() => setIsLogOpen(false)}
+                className="text-sm font-semibold text-slate-600 hover:text-slate-800"
+              >
+                Close ✕
+              </button>
+            </div>
+
+            {sessionLog.length === 0 ? (
+              <p className="text-sm text-slate-600">
+                No answers yet. Your responses will appear here as you proceed.
+              </p>
+            ) : (
+              <div className="space-y-3 max-h-80 overflow-y-auto pr-1">
+                {sessionLog.map((entry, index) => (
+                  <div
+                    key={entry.id}
+                    className="rounded-lg border border-slate-200 bg-slate-50 p-3"
+                  >
+                    <p className="text-xs uppercase tracking-wide text-slate-500 mb-1">
+                      Question {index + 1}
+                    </p>
+                    <p className="font-semibold text-slate-800">{entry.questionText}</p>
+                    <p className="text-slate-700 mt-1">
+                      Answer: <span className="font-semibold">{entry.displayAnswer}</span>
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

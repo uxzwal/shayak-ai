@@ -7,7 +7,7 @@ A comprehensive reference of all files in the Sahayak AI application.
 ```
 sahayak-ai/
 ├── public/
-│   ├── index.html              ← HTML entry point (CDN-based setup)
+│   ├── index.html              ← HTML entry point (PWA meta + React root)
 │   ├── manifest.json           ← PWA manifest (installable app)
 │   └── service-worker.js       ← Offline support & caching
 │
@@ -49,13 +49,10 @@ sahayak-ai/
 **Purpose**: HTML entry point for the application
 **Key Features**:
 - React root element mount point
-- CDN imports for React, ReactDOM, Tailwind CSS
-- Service Worker registration
-- PWA meta tags
-- Offline detection
+- Bundler-injected JS/CSS assets
+- PWA meta tags and manifest link
 
 **When to edit**:
-- Add new CDN imports
 - Modify PWA settings
 - Update meta tags for SEO
 
@@ -607,7 +604,7 @@ sahayak_offline_acknowledged // User preferences
 - `src/utils/agentLogic.js` - Better algorithms
 
 ### Rarely Modified
-- `public/index.html` - Only for meta tags or CDN imports
+- `public/index.html` - Only for meta tags or PWA settings
 - `src/index.js` - Only for React config changes
 - `src/index.css` - Usually use tailwind.config.js instead
 
@@ -636,11 +633,8 @@ sahayak_offline_acknowledged // User preferences
 ## 📈 File Dependency Graph
 
 ```
-index.html
-  ├─ React (CDN)
-  ├─ ReactDOM (CDN)
-  ├─ Tailwind CSS (CDN)
-  └─ src/index.js
+public/index.html
+  └─ src/index.js (bundled by React scripts)
        └─ src/App.js
             ├─ src/components/EmergencyGrid.jsx
             ├─ src/components/AgentChat.jsx

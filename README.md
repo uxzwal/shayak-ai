@@ -61,13 +61,15 @@ npx tailwindcss init -p
 npm start
 ```
 
-### Option 2: Direct HTML/JS (Simpler for Deployment)
+### Option 2: Static Build (Simpler for Deployment)
 
 ```bash
-# Copy all files to your web server directory
-cp -r ./* /var/www/sahayak-ai/
+# Build optimized production files
+npm run build
 
-# Serve with any HTTP server
+# Serve the build folder with any HTTP server
+cd build
+
 # Python 3
 python -m http.server 8000
 

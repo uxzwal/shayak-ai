@@ -3,6 +3,9 @@
  * Handles dynamic question selection, severity detection, and summary generation
  */
 
+const IMPORTANT_NOTICE = 'IMPORTANT: SEEK PROFESSIONAL MEDICAL HELP IMMEDIATELY.';
+const IMPORTANT_NOTICE_REGEX = /IMPORTANT:\s*SEEK PROFESSIONAL MEDICAL HELP IMMEDIATELY\./i;
+
 /**
  * Get the next question based on current answers
  * Implements adaptive question flow
@@ -96,6 +99,10 @@ export function generateSummary(protocol, answers, severity) {
     const placeholder = `{{${key}}}`;
     summary = summary.replace(new RegExp(placeholder, 'g'), displayValue);
   });
+
+  if (!IMPORTANT_NOTICE_REGEX.test(summary)) {
+    summary = `${summary.trim()}\n\n${IMPORTANT_NOTICE}`;
+  }
 
   return summary;
 }

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sahayak AI - Offline Emergency Response Agent for India. First aid guidance for medical emergencies, works completely offline without internet." />
+  <meta name="theme-color" content="#3b82f6" />
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>🚑</text></svg>" />
+  
+  <title>Sahayak AI - Emergency Response Agent</title>
+  
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Sahayak AI" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%233b82f6' width='192' height='192'/><text x='50%' y='50%' font-size='120' text-anchor='middle' dominant-baseline='middle'>🚑</text></svg>" />
+  
+  <style>
+    /* Prevent layout shift */
+    html {
+      overflow-y: scroll;
+    }
+    
+    /* Smooth scroll behavior */
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    /* Ensure minimum viewport height */
+    body, #root {
+      min-height: 100vh;
+    }
+    
+    /* Loading state */
+    #root:empty::after {
+      content: '';
+      display: block;
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #f0f9ff, #ecfdf5);
+    }
+  </style>
+</head>
+<body class="bg-slate-50">
+  <noscript>You need to enable JavaScript to run Sahayak AI.</noscript>
+  <!-- Root element for React -->
+  <div id="root"></div>
+</body>
+</html>
