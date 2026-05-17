@@ -1,0 +1,84 @@
+{
+  "name": "Sahayak AI - Offline Emergency Response Agent for India",
+  "short_name": "Sahayak AI",
+  "description": "An intelligent, offline-first emergency response agent that provides immediate first aid guidance for common medical emergencies in India. Works completely without internet.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#3b82f6",
+  "background_color": "#ffffff",
+  "categories": ["medical", "health", "emergency"],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect fill='%23f0f9ff' width='540' height='720'/><text x='50%' y='50%' font-size='100' text-anchor='middle' dominant-baseline='middle'>🚑</text></svg>",
+      "sizes": "540x720",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
+    }
+  ],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%233b82f6' width='192' height='192'/><text x='50%' y='50%' font-size='120' text-anchor='middle' dominant-baseline='middle'>🚑</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%233b82f6' width='512' height='512'/><text x='50%' y='50%' font-size='320' text-anchor='middle' dominant-baseline='middle'>🚑</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Snake Bite Emergency",
+      "short_name": "Snake Bite",
+      "description": "Get immediate guidance for snake bite injuries",
+      "url": "/?emergency=snakeBite",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><text x='50%' y='50%' font-size='80' text-anchor='middle' dominant-baseline='middle'>🐍</text></svg>",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Burn Emergency",
+      "short_name": "Burn",
+      "description": "Get immediate guidance for burn injuries",
+      "url": "/?emergency=burn",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><text x='50%' y='50%' font-size='80' text-anchor='middle' dominant-baseline='middle'>🔥</text></svg>",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ],
+  "permissions": [
+    "clipboard-read",
+    "clipboard-write"
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "Emergency Summary",
+      "text": "summary"
+    }
+  },
+  "file_handlers": [
+    {
+      "action": "/",
+      "accept": {
+        "application/json": [".json"]
+      },
+      "launch_type": "single-client"
+    }
+  ]
+}
