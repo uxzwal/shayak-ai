@@ -277,21 +277,20 @@ export async function copyToClipboard(text) {
 /**
  * Get storage status and available space
  */
-export function getStorageStatus() {
+export async function getStorageStatus() {
   try {
     if (!navigator.storage || !navigator.storage.estimate) {
       return { available: true, message: 'Storage available' };
     }
 
-    navigator.storage.estimate().then(estimate => {
-      const percentUsed = (estimate.usage / estimate.quota) * 100;
-      return {
-        available: percentUsed < 90,
-        usage: estimate.usage,
-        quota: estimate.quota,
-        percentUsed
-      };
-    });
+    const estimate = await navigator.storage.estimate();
+    const percentUsed = (estimate.usage / estimate.quota) * 100;
+    return {
+      available: percentUsed < 90,
+      usage: estimate.usage,
+      quota: estimate.quota,
+      percentUsed
+    };
   } catch (error) {
     return { available: true, message: 'Storage available' };
   }

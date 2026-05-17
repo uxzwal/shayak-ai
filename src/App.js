@@ -263,7 +263,7 @@ export default function App() {
               </div>
             </div>
             <h2 className="text-3xl font-bold text-slate-800 mb-2">
-              Assistant is analyzing your responses...
+              Agent is analyzing your responses...
             </h2>
             <p className="text-slate-600">
               The agent is determining severity and preparing guidance

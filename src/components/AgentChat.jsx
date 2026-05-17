@@ -205,7 +205,7 @@ export function AgentChat({
               <div className="space-y-3 max-h-80 overflow-y-auto pr-1">
                 {sessionLog.map((entry, index) => (
                   <div
-                    key={`${entry.id}-${index}`}
+                    key={entry.id}
                     className="rounded-lg border border-slate-200 bg-slate-50 p-3"
                   >
                     <p className="text-xs uppercase tracking-wide text-slate-500 mb-1">

@@ -31,6 +31,16 @@ export function ResultCard({
   const severityStyle = getSeverityStyle();
   const summaryLines = summary.split('\n');
 
+  const getSummaryLineKey = (line, index) => {
+    const base = `${line}-${index}`;
+    let hash = 0;
+    for (let i = 0; i < base.length; i++) {
+      hash = (hash << 5) - hash + base.charCodeAt(i);
+      hash |= 0;
+    }
+    return `summary-${Math.abs(hash)}`;
+  };
+
   const handleCopy = async () => {
     const success = await copyToClipboard(summary);
     if (success) {
@@ -160,7 +170,7 @@ export function ResultCard({
                   const isImportant = line.trim().startsWith('IMPORTANT:');
                   return (
                     <div
-                      key={`${index}-${line}`}
+                      key={getSummaryLineKey(line, index)}
                       className={isImportant ? 'font-bold text-red-700' : ''}
                     >
                       {line || '\u00A0'}
