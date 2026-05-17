@@ -4,6 +4,7 @@
  */
 
 import React, { useState } from 'react';
+import { copyToClipboard } from '../utils/storage';
 
 export function ResultCard({
   protocol,
@@ -11,8 +12,7 @@ export function ResultCard({
   immediateActions,
   warnings,
   summary,
-  onNewEmergency,
-  onCopySummary
+  onNewEmergency
 }) {
   const [activeTab, setActiveTab] = useState('actions');
   const [copied, setCopied] = useState(false);
@@ -29,26 +29,19 @@ export function ResultCard({
   };
 
   const severityStyle = getSeverityStyle();
+  const summaryLines = summary.split('\n');
 
   const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(summary);
+    const success = await copyToClipboard(summary);
+    if (success) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch (error) {
-      console.error('Copy failed:', error);
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 p-4">
       <div className="max-w-4xl mx-auto py-8">
-        {/* Offline Badge */}
-        <div className="inline-flex items-center gap-2 bg-green-50 border border-green-300 rounded-full px-3 py-1 mb-8 text-sm">
-          <span className="text-lg">🟢</span>
-          <span className="font-medium text-green-700">Offline</span>
-        </div>
-
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-slate-800 mb-4 flex items-center gap-3">
@@ -162,8 +155,18 @@ export function ResultCard({
               </h2>
               
               {/* Summary Text */}
-              <div className="bg-slate-50 p-6 rounded-lg border-2 border-slate-200 mb-6 whitespace-pre-wrap font-mono text-sm text-slate-700 max-h-96 overflow-y-auto">
-                {summary}
+              <div className="bg-slate-50 p-6 rounded-lg border-2 border-slate-200 mb-6 font-mono text-sm text-slate-700 max-h-96 overflow-y-auto">
+                {summaryLines.map((line, index) => {
+                  const isImportant = line.trim().startsWith('IMPORTANT:');
+                  return (
+                    <div
+                      key={`${index}-${line}`}
+                      className={isImportant ? 'font-bold text-red-700' : ''}
+                    >
+                      {line || '\u00A0'}
+                    </div>
+                  );
+                })}
               </div>
 
               {/* Copy Button */}

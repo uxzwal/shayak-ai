@@ -280,7 +280,7 @@ Actions taken:
       },
       {
         id: 'chk_q2',
-        questionText: 'What is the person's age?',
+        questionText: "What is the person's age?",
         inputType: 'choice',
         options: [
           { label: 'Child (1-12 years)', value: 'child' },
@@ -298,7 +298,6 @@ Actions taken:
     ],
     severityLogic: (answers) => {
       const can_cough = answers.chk_q1;
-      const age = answers.chk_q2;
       const can_speak = answers.chk_q3;
 
       if (!can_cough) {
@@ -653,7 +652,7 @@ Actions taken:
       },
       {
         id: 'bleed_q4',
-        questionText: 'Is the person's skin pale and clammy?',
+        questionText: "Is the person's skin pale and clammy?",
         inputType: 'boolean',
         nextQuestionMapping: (answer) => null
       }
@@ -684,7 +683,7 @@ Actions taken:
         'Cover with sterile bandage.',
         'Elevate limb above heart level if possible.',
         'Watch for signs of infection over next few days.',
-        'Seek medical attention if bleeding doesn't stop or wound is deep.'
+        "Seek medical attention if bleeding doesn't stop or wound is deep."
       ],
       moderate: [
         '🚨 Call for medical help if bleeding does not slow within 10 minutes.',

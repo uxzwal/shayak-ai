@@ -524,8 +524,8 @@ Browser LocalStorage: 5-10MB available
 
 ```
 default-src 'self'
-script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com
-style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com
+script-src 'self' 'unsafe-inline'
+style-src 'self' 'unsafe-inline'
 img-src 'self' data:
 object-src 'none'
 frame-ancestors 'none'

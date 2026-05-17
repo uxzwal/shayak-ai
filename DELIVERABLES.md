@@ -27,20 +27,20 @@ A fully functional, offline-first emergency response app with:
 ### Core Application Files (18 files)
 
 #### Component Files
-- ✅ `App.js` - Main application with state machine
-- ✅ `EmergencyGrid.jsx` - Emergency selection interface
-- ✅ `AgentChat.jsx` - Interactive Q&A component
-- ✅ `ResultCard.jsx` - Results & guidance display
+- ✅ `src/App.js` - Main application with state machine
+- ✅ `src/components/EmergencyGrid.jsx` - Emergency selection interface
+- ✅ `src/components/AgentChat.jsx` - Interactive Q&A component
+- ✅ `src/components/ResultCard.jsx` - Results & guidance display
 
 #### Data & Logic
-- ✅ `protocols.js` - Medical protocols for 7 emergencies (850+ lines)
-- ✅ `agentLogic.js` - Decision trees & algorithms
-- ✅ `storage.js` - LocalStorage utilities for offline
+- ✅ `src/data/protocols.js` - Medical protocols for 7 emergencies (850+ lines)
+- ✅ `src/utils/agentLogic.js` - Decision trees & algorithms
+- ✅ `src/utils/storage.js` - LocalStorage utilities for offline
 
 #### Entry Points & Styling
-- ✅ `index.html` - HTML entry point
-- ✅ `index.js` - React bootstrap
-- ✅ `index.css` - Global styles
+- ✅ `public/index.html` - HTML entry point
+- ✅ `src/index.js` - React bootstrap
+- ✅ `src/index.css` - Global styles
 
 #### Configuration
 - ✅ `package.json` - Dependencies & scripts
@@ -49,8 +49,8 @@ A fully functional, offline-first emergency response app with:
 - ✅ `.gitignore` - Git ignore patterns
 
 #### PWA & Offline
-- ✅ `manifest.json` - PWA manifest (installable app)
-- ✅ `service-worker.js` - Offline support & caching
+- ✅ `public/manifest.json` - PWA manifest (installable app)
+- ✅ `public/service-worker.js` - Offline support & caching
 
 #### Documentation (5 files)
 - ✅ `README.md` - Overview & quick start
@@ -274,7 +274,7 @@ No medical advice was hallucinated. All protocols have been carefully researched
 
 Easy to customize:
 
-- **Add emergencies**: Edit `protocols.js`, add new protocol object
+- **Add emergencies**: Edit `src/data/protocols.js`, add new protocol object
 - **Modify styling**: Edit `tailwind.config.js` and `.jsx` files
 - **Change colors**: Update Tailwind colors
 - **Update medical data**: Edit action/warning text
@@ -296,7 +296,7 @@ Easy to customize:
 → Follow `DEPLOYMENT.md`
 
 **Improve medical accuracy?**
-→ Edit action/warning text in `protocols.js`
+→ Edit action/warning text in `src/data/protocols.js`
 
 ---
 

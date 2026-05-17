@@ -15,3 +15,14 @@ root.render(
     <App />
   </React.StrictMode>
 );
+
+// Register custom service worker for offline support
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register(`${process.env.PUBLIC_URL}/service-worker.js`)
+      .catch(error => {
+        console.error('Service worker registration failed:', error);
+      });
+  });
+}

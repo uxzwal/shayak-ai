@@ -3,20 +3,11 @@
  * Enables offline functionality and PWA capabilities
  */
 
-const CACHE_NAME = 'sahayak-ai-v1';
+const CACHE_NAME = 'sahayak-ai-v2';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/index.js',
-  '/index.css',
-  '/App.js',
-  '/protocols.js',
-  '/agentLogic.js',
-  '/storage.js',
-  '/EmergencyGrid.jsx',
-  '/AgentChat.jsx',
-  '/ResultCard.jsx',
-  '/manifest.json'
+  './',
+  './index.html',
+  './manifest.json'
 ];
 
 /**
@@ -71,36 +62,33 @@ self.addEventListener('fetch', event => {
   }
 
   event.respondWith(
-    // Try network first
-    fetch(event.request)
-      .then(response => {
-        // Cache successful responses for offline use
-        if (response && response.status === 200) {
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, responseToCache);
-          });
-        }
-        return response;
-      })
-      .catch(() => {
-        // Fall back to cache if network fails
-        return caches.match(event.request).then(response => {
-          if (response) {
-            return response;
+    // Cache-first for offline-first experience
+    caches.match(event.request).then(cachedResponse => {
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+
+      return fetch(event.request)
+        .then(response => {
+          if (response && response.status === 200) {
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME).then(cache => {
+              cache.put(event.request, responseToCache);
+            });
           }
-          
-          // Return offline page if asset not found
+          return response;
+        })
+        .catch(() => {
           if (event.request.destination === 'document') {
-            return caches.match('/index.html');
+            return caches.match('./index.html');
           }
-          
+
           return new Response('Offline - Resource not available', {
             status: 503,
             statusText: 'Service Unavailable'
           });
         });
-      })
+    })
   );
 });
 
@@ -141,15 +129,15 @@ self.addEventListener('notificationclick', event => {
   event.waitUntil(
     clients.matchAll({ type: 'window' }).then(clientList => {
       // Check if app is already open
-      for (let client of clientList) {
-        if (client.url === '/' && 'focus' in client) {
-          return client.focus();
-        }
-      }
-      // Open app if not already open
-      if (clients.openWindow) {
-        return clients.openWindow('/');
-      }
+       for (let client of clientList) {
+         if (client.url.startsWith(self.registration.scope) && 'focus' in client) {
+           return client.focus();
+         }
+       }
+       // Open app if not already open
+       if (clients.openWindow) {
+         return clients.openWindow(self.registration.scope);
+       }
     })
   );
 });

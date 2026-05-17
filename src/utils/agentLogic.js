@@ -97,6 +97,10 @@ export function generateSummary(protocol, answers, severity) {
     summary = summary.replace(new RegExp(placeholder, 'g'), displayValue);
   });
 
+  if (!summary.includes('IMPORTANT:')) {
+    summary = `${summary.trim()}\n\nIMPORTANT: SEEK PROFESSIONAL MEDICAL HELP IMMEDIATELY.`;
+  }
+
   return summary;
 }
 
